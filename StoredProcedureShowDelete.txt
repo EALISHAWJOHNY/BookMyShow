@@ -1,0 +1,50 @@
+USE BookMyShowDB;
+GO
+
+CREATE OR ALTER PROCEDURE spc_deleteShow
+    @Time nvarchar(50),
+    @TheatreId int,
+    @MovieId int,
+    @Result int OUTPUT
+AS 
+BEGIN
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        -- Update the Seat table
+        UPDATE Seat
+        SET
+            ShowTime = NULL,
+            TheatreId = NULL,
+            MovieId = NULL,
+            TicketId = NULL,
+            Availability = CASE WHEN Availability = 'Booked' THEN 'Available' ELSE Availability END
+        WHERE ShowTime = @Time AND TheatreId = @TheatreId AND MovieId = @MovieId;
+
+        -- Delete from Ticket table
+        DELETE FROM Ticket
+        WHERE ShowTime = @Time AND TheatreId = @TheatreId AND MovieId = @MovieId;
+
+        -- Delete from Show table
+        DELETE FROM Show
+        WHERE Time = @Time AND TheatreId = @TheatreId AND MovieId = @MovieId;
+
+        -- Set @Result based on whether the show record was deleted
+        IF @@ROWCOUNT > 0
+        BEGIN
+            SET @Result = 1;
+        END
+        ELSE
+        BEGIN
+            SET @Result = 0;
+        END;
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        -- Return error
+        SET @Result = -1;
+    END CATCH;
+END;
+GO
