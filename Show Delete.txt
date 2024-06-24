@@ -1,0 +1,102 @@
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Book_My_Show_Entities
+{
+    public class Show
+    {
+        public string Time { get; set; }
+
+        // Data annotation 
+        [ForeignKeyAttribute("Theatre")]
+        public int TheatreId { get; set; }
+
+        [ForeignKeyAttribute("Movie")]
+        public int MovieId { get; set; }
+    }
+}
+
+================================================
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Book_My_Show_Entities
+{
+    public class Ticket
+    {
+        [Key]
+        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
+        public string UserName { get; set; }
+
+        public int NumberOfSeats { get; set; }
+
+        [ForeignKey("Show"), Column(Order = 0)]
+        public string ShowTime { get; set; }
+
+        [ForeignKey("Show"), Column(Order = 1)]
+        public int TheatreId { get; set; }
+
+        [ForeignKey("Show"), Column(Order = 2)]
+        public int MovieId { get; set; }
+    }
+}
+
+======================================================
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Book_My_Show_Entities
+{
+    public class Seat
+    {
+        
+        public int Number { get; set; }
+
+
+        [ForeignKey("Show"), Column(Order = 0)]
+        public string ShowTime { get; set; }
+
+
+        [ForeignKey("Show"), Column(Order = 1)]
+        public int TheatreId { get; set; }
+
+
+        [ForeignKey("Show"), Column(Order = 2)]
+        public int MovieId { get; set; }
+
+        [ForeignKey("Ticket")]              // Optional Foreign Key (nullable)
+        public int TicketId { get; set; }
+
+        [EnumDataType(typeof(SeatStatus))]
+        public string Availability { get; set; }
+
+        [ForeignKey("SeatCategory")]
+        public int SeatCategoryId {  get; set; }
+    }
+}
+
+===================================================
+
+use [BookMyShowDB]
+create or alter procedure spc_deleteShow
+@Time nvarchar(50),
+@TheatreId int,
+@MovieId int,
+@Result int output
+as 
