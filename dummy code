@@ -10,3 +10,6 @@ getImagePath(themePhotoPath: string): string {
                 alt="{{movie.name}}"
                 (click)="navigateToMovieDetails(movie)"
                 style="cursor:pointer;">
+
+http://localhost:4200/assets/FileUpload/de544b32-cb1d-4961-9558-067825bfd81e.jpg
+http://localhost:4200/assets/FileUpload/e6609959-f4f0-49c8-a6fa-c3bdad2f0986.jpg
