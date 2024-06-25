@@ -1,8 +1,58 @@
-Not allowed to load local resource: file:///C:/src/Ealishaw_Book_My_Show_Git/Book_My_Show_Client/src/assets/FileUpload/20e14b44-9f77-4de6-a7c7-3748977a7562_Screenshot%202024-04-29%20162334.png
+<div class="container-fluid">
+    <div class="row">
+      <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+        <div class="position-sticky">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" routerLink="/admin">
+                Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/admin/movies">
+                My Bookings
+              </a>
+            </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link" routerLink="/admin/theatres">
+                Manage Theatres
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/admin/shows">
+                Manage Shows
+              </a>
+            </li> -->
+          </ul>
+        </div>
+      </nav>
+  
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h1">Latest in the Box Office!</h1>
+        </div>
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-md-4" *ngFor="let movie of movies">
+                    <div class="card mb-4 shadow-sm">
+                        <img
+                        [src]="movie.themePhotoPath"
+                        class="card-img-top"
+                        alt="{{movie.name}}"
+                        (click)="navigateToMovieDetails(movie)"
+                        style="cursor:pointer;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{movie.name}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <router-outlet></router-outlet>
+      </main>
+    </div>
+  </div>
 
-"FileUploadPath": {
-  "UploadDirectory": "C:\\src\\Ealishaw_Book_My_Show_Git\\Book_My_Show_Client\\src\\assets\\FileUpload"
-}  
 
 http://localhost:4200/media/Cover_Photo.jpg
 http://localhost:4200/media/09f07208-1f36-4e8d-a483-d6bab075e08b.jpg
