@@ -103,21 +103,33 @@ VALUES
 (2, 2, '2024-06-20 11:00:00', 15.00),
 (3, 3, '2024-06-20 12:00:00', 10.00);
 
-var sqlQuery = "spc_insertMovie";
+CREATE PROCEDURE spc_insertMovie
+    @Name NVARCHAR(255),
+    @ImdbRating FLOAT,
+    @Category NVARCHAR(255),
+    @Genre NVARCHAR(255),
+    @ReleaseDate DATE,
+    @Duration INT,
+    @ThemePhotoPath NVARCHAR(255),
+    @Result INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
 
-var parameters = new DynamicParameters();
-parameters.Add("Name", movie.Name, DbType.String);
-parameters.Add("ImdbRating", movie.ImdbRating, DbType.Double);
-parameters.Add("Category", movie.Category, DbType.String);
-parameters.Add("Genre", movie.Genre, DbType.String);
-parameters.Add("ReleaseDate", movie.ReleaseDate, DbType.Date);
-parameters.Add("Duration", movie.Duration, DbType.Int32);
-parameters.Add("ThemePhotoPath", movie.ThemePhotoPath, DbType.String);
+    BEGIN TRY
+        -- Insert the movie details into the Movies table
+        INSERT INTO Movies (Name, ImdbRating, Category, Genre, ReleaseDate, Duration, ThemePhotoPath)
+        VALUES (@Name, @ImdbRating, @Category, @Genre, @ReleaseDate, @Duration, @ThemePhotoPath);
+        
+        -- Set the output parameter to indicate success (e.g., 1)
+        SET @Result = 1;
+    END TRY
+    BEGIN CATCH
+        -- Handle any errors that occur during the insertion
+        -- Set the output parameter to indicate failure (e.g., 0)
+        SET @Result = 0;
 
-// Define the output parameter
-parameters.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-
-connection.Execute(sqlQuery, parameters, commandType: CommandType.StoredProcedure);
-
-// Retrieve the output value
-int result = parameters.Get<int>("Result");
+        -- Optionally, log the error details or re-throw the error
+        -- Example: RAISERROR('Error inserting movie', 16, 1);
+    END CATCH;
+END
