@@ -102,3 +102,22 @@ VALUES
 (1, 1, '2024-06-20 10:00:00', 12.50),
 (2, 2, '2024-06-20 11:00:00', 15.00),
 (3, 3, '2024-06-20 12:00:00', 10.00);
+
+var sqlQuery = "spc_insertMovie";
+
+var parameters = new DynamicParameters();
+parameters.Add("Name", movie.Name, DbType.String);
+parameters.Add("ImdbRating", movie.ImdbRating, DbType.Double);
+parameters.Add("Category", movie.Category, DbType.String);
+parameters.Add("Genre", movie.Genre, DbType.String);
+parameters.Add("ReleaseDate", movie.ReleaseDate, DbType.Date);
+parameters.Add("Duration", movie.Duration, DbType.Int32);
+parameters.Add("ThemePhotoPath", movie.ThemePhotoPath, DbType.String);
+
+// Define the output parameter
+parameters.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+connection.Execute(sqlQuery, parameters, commandType: CommandType.StoredProcedure);
+
+// Retrieve the output value
+int result = parameters.Get<int>("Result");
