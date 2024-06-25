@@ -3,3 +3,7 @@ Not allowed to load local resource: file:///C:/src/Ealishaw_Book_My_Show_Git/Boo
 "FileUploadPath": {
   "UploadDirectory": "C:\\src\\Ealishaw_Book_My_Show_Git\\Book_My_Show_Client\\src\\assets\\FileUpload"
 }  
+
+http://localhost:4200/media/Cover_Photo.jpg
+http://localhost:4200/media/09f07208-1f36-4e8d-a483-d6bab075e08b.jpg
+http://localhost:4200/Book_My_Show_Client/src/assets/FileUpload/09f07208-1f36-4e8d-a483-d6bab075e08b.jpg
