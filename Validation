@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -9,24 +9,27 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  username: string = '';
-  password: string = '';
-  role: string = 'user';
+  registerForm: FormGroup;
 
-  constructor(private authService: AuthService, private router: Router) { }
-  ngOnInit(): void{}
-    registerForm = new FormGroup({
-      username: new FormGroup("",[Validators.required,Validators.minLength(2),
-        Validators.pattern("[a-zA-Z][a-zA-Z0-9_.]{2,15}") ]),
-      password: new FormControl("",[Validators.required,Validators.minLength(6),
-        Validators.pattern("[a-zA-Z][a-zA-Z0-9_.]{2,15}")
-      ]),     
-    })
+  constructor(private authService: AuthService, private router: Router) {
+    this.registerForm = new FormGroup({
+      username: new FormControl('', [
+        Validators.required,
+        Validators.pattern("^[a-zA-Z][a-zA-Z0-9_.]{2,15}$")
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.pattern("^[a-zA-Z][a-zA-Z0-9_.]{2,15}$")
+      ]),
+      role: new FormControl('user', Validators.required)
+    });
+  }
 
-  onSubmit(form: NgForm): void {
-    if (form.valid) {
-      const user = { username: this.username, password: this.password, role: this.role };
-      if (this.role === 'admin') {
+  onSubmit(): void {
+    if (this.registerForm.valid) {
+      const user = this.registerForm.value;
+      if (user.role === 'admin') {
         this.authService.registerAdmin(user).subscribe(response => {
           this.router.navigate(['/login']);
         });
@@ -38,6 +41,7 @@ export class RegisterComponent {
     }
   }
 }
+
 
 <div class="container mt-5">
   <h2 class="mb-4">Register</h2>
