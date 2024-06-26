@@ -42,7 +42,7 @@ export class RegisterComponent {
   }
 }
 
-Can't bind to 'formGroup' since it isn't a known property of 'form'.
+Property 'role' does not exist on type 'RegisterComponent'.
 <div class="container mt-5">
   <h2 class="mb-4">Register</h2>
   <form (ngSubmit)="onSubmit(registerForm)" #registerForm="ngForm">
