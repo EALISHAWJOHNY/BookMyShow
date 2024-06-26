@@ -78,5 +78,5 @@ public class Movie
     public string ThemePhotoPath { get; set; } = string.Empty;
 }
 
- [RegularExpression(@"^(?=.*[A-Z])(?=,*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$", ErrorMessage = "Only alphabets")]
+(?=.*[A-Z])(?=,*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}
 
