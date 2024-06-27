@@ -28,3 +28,9 @@ BEGIN
       AND s.theatreId = @theatreId
       AND s.showTime = @showTime
 END
+DECLARE @movieId INT = 1;
+DECLARE @theatreId INT = 1;
+DECLARE @showTime VARCHAR(50) = '2024-06-28 19:00';
+DECLARE @seats NVARCHAR(MAX) = N'[{"row":"A","number":1},{"row":"A","number":2},{"row":"B","number":1}]';
+
+EXEC spc_bookSeats @movieId, @theatreId, @showTime, @seats;
